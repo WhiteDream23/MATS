@@ -604,7 +604,7 @@ class Fit_DataSet:
         self.SD_gamma_limit_factor = SD_gamma_limit_factor
         self.n_gamma2_limit = n_gamma2_limit
         self.n_gamma2_limit_factor = n_gamma2_limit_factor
-        self.SD_delta_limit = SD_gamma_limit
+        self.SD_delta_limit = SD_delta_limit
         self.SD_delta_limit_factor = SD_delta_limit_factor
         self.n_delta2_limit = n_delta2_limit
         self.n_delta2_limit_factor = n_delta2_limit_factor
