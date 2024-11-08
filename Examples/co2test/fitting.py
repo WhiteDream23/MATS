@@ -17,7 +17,7 @@ wave_range = 1.5 #range outside of experimental x-range to simulate
 IntensityThreshold = 1e-30 #intensities must be above this value to be simulated
 Fit_Intensity = 1e-29 #intensities must be above this value for the line to be fit
 order_baseline_fit = 1
-tau_column = 'Alpha - Uncorrected' # Mean tau/us
+tau_column = 'aaaa' # Mean tau/us
 freq_column = 'Total Frequency /MHz' # Total Frequency /MHz
 pressure_column = 'Cavity Pressure /Torr'
 temperature_column = 'Cavity Temperature Side 2 /C'
@@ -38,7 +38,7 @@ spec_2 = MATS.Spectrum('co2-line2',
                         input_tau = False, tau_column = tau_column,
                         pressure_column = pressure_column, temperature_column = temperature_column,
                         nominal_temperature = 296, x_shift = 0.00)
-#spec_1.plot_wave_alpha()
+spec_1.plot_wave_alpha()
 #Read in linelists
 PARAM_LINELIST = linelistdata['CO2_initguess']
 #Add all spectrum to a Dataset object
@@ -54,24 +54,24 @@ FITPARAMS = MATS.Generate_FitParam_File(SPECTRA, PARAM_LINELIST, BASE_LINELIST, 
                                    nuVC_constrain = True, eta_constrain =True, linemixing_constrain = True,
                                     additional_columns = ['trans_id', 'local_lower_quanta'])
 
-FITPARAMS.generate_fit_param_linelist_from_linelist(vary_nu = {2:{1:True, 2:False, 3:False}}, vary_sw = {2:{1:True, 2:False, 3:False}},
-                                                    vary_gamma0 = {2:{1: True, 2:False, 3: False}}, vary_n_gamma0 = {2:{1:True}},
-                                                    vary_delta0 = {2:{1: True, 2:False, 3: False}}, vary_n_delta0 = {2:{1:True}},
-                                                    vary_aw = {2:{1: True, 2:False, 3: False}}, vary_n_gamma2 = {2:{1:False}},
-                                                    vary_as = {}, vary_n_delta2 = {2:{1:False}},
-                                                    vary_nuVC = {2:{1:False}}, vary_n_nuVC = {2:{1:False}},
-                                                    vary_eta = {}, vary_linemixing = {2:{1:False}})
-
+# FITPARAMS.generate_fit_param_linelist_from_linelist(vary_nu = {2:{1:True, 2:False, 3:False}}, vary_sw = {2:{1:True, 2:False, 3:False}},
+#                                                     vary_gamma0 = {2:{1: True, 2:False, 3: False}}, vary_n_gamma0 = {2:{1:True}},
+#                                                     vary_delta0 = {2:{1: True, 2:False, 3: False}}, vary_n_delta0 = {2:{1:True}},
+#                                                     vary_aw = {2:{1: True, 2:False, 3: False}}, vary_n_gamma2 = {2:{1:False}},
+#                                                     vary_as = {}, vary_n_delta2 = {2:{1:False}},
+#                                                     vary_nuVC = {2:{1:False}}, vary_n_nuVC = {2:{1:False}},
+#                                                     vary_eta = {}, vary_linemixing = {2:{1:False}})
+FITPARAMS.generate_fit_param_linelist_from_linelist()
 FITPARAMS.generate_fit_baseline_linelist(vary_baseline = True, vary_molefraction = {2:False}, vary_xshift = False,
-                                      vary_etalon_amp= True, vary_etalon_period= False, vary_etalon_phase= True)
+                                      vary_etalon_amp= True, vary_etalon_period= True, vary_etalon_phase= True)
 fit_data = MATS.Fit_DataSet(SPECTRA, 'Baseline_LineList', 'Parameter_LineList',
                             minimum_parameter_fit_intensity=Fit_Intensity, weight_spectra=False,
                             baseline_limit=False, baseline_limit_factor=10,
                             molefraction_limit=False, molefraction_limit_factor=1.1,
                             etalon_limit=False, etalon_limit_factor=2,  # phase is constrained to +/- 2pi,
                             x_shift_limit=False, x_shift_limit_magnitude=0.5,
-                            nu_limit=True, nu_limit_magnitude=0.1,
-                            sw_limit=True, sw_limit_factor=2,
+                            nu_limit=False, nu_limit_magnitude=0.1,
+                            sw_limit=False, sw_limit_factor=2,
                             gamma0_limit=False, gamma0_limit_factor=3, n_gamma0_limit=False, n_gamma0_limit_factor=50,
                             delta0_limit=False, delta0_limit_factor=2, n_delta0_limit=False, n_delta0_limit_factor=50,
                             SD_gamma_limit=False, SD_gamma_limit_factor=2, n_gamma2_limit=False,
