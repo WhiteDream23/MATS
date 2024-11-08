@@ -158,9 +158,9 @@ class Spectrum:
         self.diluent_sum_check() # Makes sure that the diluent contributions sum to 1
 
         #Defined from contents of file
-
-        file_contents = pd.read_excel(self.filename + '.xlsx')
-        file_contents.to_csv(self.filename + '.csv', index=False)
+        #文件格式转换
+        # file_contents = pd.read_excel(self.filename + '.xlsx')
+        # file_contents.to_csv(self.filename + '.csv', index=False)
         file_contents = pd.read_csv(self.filename + '.csv', float_precision='high')
         self.pressure = file_contents[self.pressure_column].mean() / 760
         self.temperature = file_contents[self.temperature_column].mean() + 273.15

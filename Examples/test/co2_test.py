@@ -157,7 +157,7 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
             linelist[par_name] = LOCAL_TABLE_CACHE['tmp']['data'][par_name.lower()]
         except:
             pass
-
+    #消除掩码项
     for par_name in list(linelist):
         if all(isinstance(val, np.ma.core.MaskedConstant) for val in linelist[par_name]):
             linelist.drop(columns=par_name, inplace=True)
@@ -389,8 +389,9 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
 
 tablename = 'CO2'
 global_isotopes = [7,8,9,10]
-wave_min = 9505
-wave_max = 9507
+#9505 9507
+wave_min = 9400
+wave_max = 9700
 intensity_cutoff = 1e-30
 
 linelist_select = (HITRANlinelist_to_csv(global_isotopes, wave_min, wave_max, tablename = tablename, calculate_aw = True))

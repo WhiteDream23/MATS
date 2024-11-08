@@ -1270,20 +1270,28 @@ class Fit_DataSet:
         Parameters
         ----------
         params : lmfit parameter object
+        一个字典，包含从数据帧转换为与 lmfit 兼容的字典格式的所有参数。
             the params object is a dictionary comprised of all parameters translated from dataframes into a dictionary format compatible with lmfit.
         wing_cutoff : float, optional
+        每行两侧要模拟的 voigt 半宽数量
             number of voigt half-widths to simulate on either side of each line. The default is 50.
         wing_wavenumbers : float, optional
+        每行两侧要模拟的波数数量
             number of wavenumbers to simulate on either side of each line. The default is 50.
         wing_method : str, optional
+        提供 wing_cutoff 和 wing_wavenumbers 行截止选项之间的选择。默认值为 'wing_cutoff'。
             Provides choice between the wing_cutoff and wing_wavenumbers line cut-off options. The default is 'wing_cutoff'.
         xtol : float, optional
+        可接受的收敛的迭代之间的 xopt 的绝对误差。默认值为 1e-7。
              Absolute error in xopt between iterations that is acceptable for convergence. The default is 1e-7.
         maxfev : float, optional
+        函数的最大调用次数。默认值为 2000。
             DESCRIPTION. The default is 2000.
         ftol : The maximum number of calls to the function., optional
+        在迭代之间的 func(xopt) 中可接受的绝对误差，用于收敛。默认值为 1e-7。
             Absolute error in func(xopt) between iterations that is acceptable for convergence.. The default is 1e-7.
         method : string, optional
+        定义 LMFIT 中选项中的最小化方法（不是所有都有效）。已在使用 Levenberg-Marquardt 算法的 'leastsq' 和使用信任区域反射方法的 'least_squares' 上进行了测试。
             Defines the minimization method from the options in LMFIT (not all will work).  Has been tested on the 'leastsq' which uses the Levenberg-Marquardt algorithm and 'least_squares' which uses the Trust Region Reflective method.
 
         Returns
