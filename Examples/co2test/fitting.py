@@ -38,11 +38,25 @@ spec_2 = MATS.Spectrum('co2-line2',
                         input_tau = False, tau_column = tau_column,
                         pressure_column = pressure_column, temperature_column = temperature_column,
                         nominal_temperature = 296, x_shift = 0.00)
+spec_3 = MATS.Spectrum('co2-line3',
+                        molefraction = { 2 :1}, natural_abundance = True, diluent = 'self',
+                        etalons = {}, baseline_order = 1,
+                        input_freq = False, frequency_column = freq_column,
+                        input_tau = False, tau_column = tau_column,
+                        pressure_column = pressure_column, temperature_column = temperature_column,
+                        nominal_temperature = 296, x_shift = 0.00)
+spec_4 = MATS.Spectrum('co2-line4',
+                        molefraction = { 2 :1}, natural_abundance = True, diluent = 'self',
+                        etalons = {}, baseline_order = 1,
+                        input_freq = False, frequency_column = freq_column,
+                        input_tau = False, tau_column = tau_column,
+                        pressure_column = pressure_column, temperature_column = temperature_column,
+                        nominal_temperature = 296, x_shift = 0.00)
 spec_1.plot_wave_alpha()
 #Read in linelists
 PARAM_LINELIST = linelistdata['CO2_initguess']
 #Add all spectrum to a Dataset object
-SPECTRA = MATS.Dataset([spec_1, spec_2], 'Line Intensity',PARAM_LINELIST)
+SPECTRA = MATS.Dataset([spec_1,spec_2,spec_3,spec_4], 'Line Intensity',PARAM_LINELIST)
 
 #Generate Baseline Parameter list based on number of etalons in spectra definitions and baseline order
 BASE_LINELIST = SPECTRA.generate_baseline_paramlist()
@@ -54,14 +68,14 @@ FITPARAMS = MATS.Generate_FitParam_File(SPECTRA, PARAM_LINELIST, BASE_LINELIST, 
                                    nuVC_constrain = True, eta_constrain =True, linemixing_constrain = True,
                                     additional_columns = ['trans_id', 'local_lower_quanta'])
 
-# FITPARAMS.generate_fit_param_linelist_from_linelist(vary_nu = {2:{1:True, 2:False, 3:False}}, vary_sw = {2:{1:True, 2:False, 3:False}},
-#                                                     vary_gamma0 = {2:{1: True, 2:False, 3: False}}, vary_n_gamma0 = {2:{1:True}},
-#                                                     vary_delta0 = {2:{1: True, 2:False, 3: False}}, vary_n_delta0 = {2:{1:True}},
-#                                                     vary_aw = {2:{1: True, 2:False, 3: False}}, vary_n_gamma2 = {2:{1:False}},
-#                                                     vary_as = {}, vary_n_delta2 = {2:{1:False}},
-#                                                     vary_nuVC = {2:{1:False}}, vary_n_nuVC = {2:{1:False}},
-#                                                     vary_eta = {}, vary_linemixing = {2:{1:False}})
-FITPARAMS.generate_fit_param_linelist_from_linelist()
+FITPARAMS.generate_fit_param_linelist_from_linelist(vary_nu = {2:{1:True, 2:False, 3:False}}, vary_sw = {2:{1:True, 2:False, 3:False}},
+                                                    vary_gamma0 = {2:{1: True, 2:False, 3: False}}, vary_n_gamma0 = {2:{1:True}},
+                                                    vary_delta0 = {2:{1: True, 2:False, 3: False}}, vary_n_delta0 = {2:{1:True}},
+                                                    vary_aw = {2:{1: True, 2:False, 3: False}}, vary_n_gamma2 = {2:{1:False}},
+                                                    vary_as = {}, vary_n_delta2 = {2:{1:False}},
+                                                    vary_nuVC = {2:{1:False}}, vary_n_nuVC = {2:{1:False}},
+                                                    vary_eta = {}, vary_linemixing = {2:{1:False}})
+#FITPARAMS.generate_fit_param_linelist_from_linelist()
 FITPARAMS.generate_fit_baseline_linelist(vary_baseline = True, vary_molefraction = {2:False}, vary_xshift = False,
                                       vary_etalon_amp= True, vary_etalon_period= True, vary_etalon_phase= True)
 fit_data = MATS.Fit_DataSet(SPECTRA, 'Baseline_LineList', 'Parameter_LineList',
@@ -94,6 +108,6 @@ result = fit_data.fit_data(params)
 print(result.params.pretty_print())
 
 fit_data.residual_analysis(result, indv_resid_plot=True)
-# fit_data.update_params(result)
-# SPECTRA.generate_summary_file(save_file=True)
-# SPECTRA.plot_model_residuals()
+fit_data.update_params(result)
+SPECTRA.generate_summary_file(save_file=True)
+SPECTRA.plot_model_residuals()
