@@ -481,8 +481,10 @@ def simulate_spectrum(parameter_linelist,
     Parameters
     ----------
     parameter_linelist : dataframe
+    按照 HTP_from_DF_select 所使用的行列表惯例
         linelist following the convention of the linelists used for the HTP_from_DF_select.  Note that there will need to be a linemixing column for each nominal temperature, which you will have to do manually (ie y_air_296, y_self_296).
     wavenumbers : array of floats, optional
+    提供波数列表，以下三个参数也可
         array of wavenumbers for the simulation (cm-1).  If provided, then this axis will be used.  If wavenumbers = None, then the wave_min, wave_max, and wave_space will be used to calculate wavenumber grid.
     wave_min : float, optional
          minimum wavenumber for the simulation (cm-1)
@@ -493,26 +495,36 @@ def simulate_spectrum(parameter_linelist,
     wave_error : float, optional
         absolute error on the wavenumber axis (cm-1) to include in simulations. The default is 0.
     SNR : float, optional
+    模拟频谱的信噪比，默认值为 None。 如果 SNR 为 none，则模拟中没有噪声。
         Signal to noise ratio to impose on the simulated spectrum. The default is None.  If SNR is none there is no noise on the simulation.
     baseline_terms : list, optional
+    多项式基线系数
         polynomial baseline coefficients where the index is equal to the coefficient order, ie. [0, 1, 2] would correspond to baseline = 0 + 1*(wavenumber - minimum wavenumber) + 2*(wavenumber - minimum wavenumber)^2. The default is [0].
     temperature : float, optional
+    摄氏度模拟温度，默认值为 25
          temperature for simulation in celsius. The default is 25.
     temperature_err : dict, optional
+    可能的键包括 'bias'、'function' 和 'params'。
         possible keys include 'bias', 'function', and 'params'. The bias indicates the absolute bias in Celsius of the temperature reading, which will be added to the input temperature. Function can be 'linear' with params 'm' and 'b' or 'sine' with parameters 'amp', 'phase', and 'phase'. These define a function that is added to both the bias and set temperature as a function of the wavenumber. Note: if 'function' key is not equal to None, then there also needs to be a params key to define the function.. The default is {'bias': 0, 'function': None, 'params': {}}.
     pressure : float, optional
+    模拟压力，默认值为 760
         pressure for simulation in torr. The default is 760.
     pressure_err : dict, optional
         possible keys include bias, function, and params. The bias indicates the percent bias in of the pressure reading, which will be added to the input pressure. Function can be 'linear' with params 'm' and 'b' or 'sine' with parameters 'amp', 'phase', and 'phase'. These define a function that is added to both the bias and set pressure as a function of the wavenumber. Note: if 'function' key is not equal to None, then there also needs to be a params key to define the function.. The default is {'per_bias': 0, 'function': None, 'params': {}}.
     wing_cutoff : float, optional
+    两侧模拟的 voigt 半宽数。 默认值为 25
         number of voigt half-widths to simulate on either side of each line. The default is 25.
     wing_wavenumbers : float, optional
+    两侧模拟的波数数量。 默认值为 25
         number of wavenumbers to simulate on either side of each line. The default is 25.
     wing_method : str, optional
+    提供 wing_cutoff 和 wing_wavenumbers 两种截止线选项之间的选择。 默认值为 'wing_cutoff'
         Provides choice between the wing_cutoff and wing_wavenumbers line cut-off options. The default is 'wing_cutoff'.
     filename : str, optional
+    允许您选择模拟光谱的输出文件名。 默认值为 'temp'
         allows you to pick the output filename for the simulated spectra. The default is 'temp'.
     molefraction : dict, optional
+    模拟光谱中要模拟的每种分子的摩尔分数。
         mole fraction of each molecule to be simulated in the spectrum in the format {molec_id: mole fraction (out of 1), molec_id: molefraction, . . . }. The default is {}.
     molefraction_err : dict, optional
         percent error in the mole fraction of each molecule to be simulated in the spectrum in the format {molec_id: percent error in mole fraction, molec_id: percent error in mole fraction, . . . }. The default is {}.
@@ -537,8 +549,10 @@ def simulate_spectrum(parameter_linelist,
     num_segments : int, optional
         Number of segments in the file, which is implemented labeling the segment column into equal sequential se . The default is 10.
     beta_formalism : boolean, optional
+    表示是否应使用 Dicke Narrowing 的贝塔校正。  默认为 "假"。
         Indicates whether the beta correction for Dicke Narrowing should be used.  The default is False.
     ILS_function: string, optional
+    默认为 "无"，表示拟合时不使用仪器线形。
         Default is None and means that no instrument line shape is used in the fitting.
         Function can be: SLIT_MICHELSON, SLIT_DIFFRACTION, SLIT_COSINUS, SLIT_DISPERSION, SLIT_GAUSSIAN, SLIT_TRIANGULAR, SLIT_RECTANGULAR corresponding to the ILS functions defined in HAPI or a user defined function.
     ILS_resolution: float/array, optional

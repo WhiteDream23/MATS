@@ -52,7 +52,7 @@ spec_4 = MATS.Spectrum('co2-line4',
                         input_tau = False, tau_column = tau_column,
                         pressure_column = pressure_column, temperature_column = temperature_column,
                         nominal_temperature = 296, x_shift = 0.00)
-spec_1.plot_wave_alpha()
+#spec_1.plot_wave_alpha()
 #Read in linelists
 PARAM_LINELIST = linelistdata['CO2_initguess']
 #Add all spectrum to a Dataset object
@@ -63,7 +63,7 @@ BASE_LINELIST = SPECTRA.generate_baseline_paramlist()
 #1107 以上未发现问题
 FITPARAMS = MATS.Generate_FitParam_File(SPECTRA, PARAM_LINELIST, BASE_LINELIST, lineprofile = 'SDVP', linemixing = False,
                                   fit_intensity = Fit_Intensity, threshold_intensity = IntensityThreshold, sim_window = wave_range,
-                                  nu_constrain = True, sw_constrain = False, gamma0_constrain = True, delta0_constrain = True,
+                                  nu_constrain = True, sw_constrain = True, gamma0_constrain = True, delta0_constrain = True,
                                    aw_constrain = True, as_constrain = True,
                                    nuVC_constrain = True, eta_constrain =True, linemixing_constrain = True,
                                     additional_columns = ['trans_id', 'local_lower_quanta'])

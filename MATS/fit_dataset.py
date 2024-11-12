@@ -1058,7 +1058,7 @@ class Fit_DataSet:
     
     def simulation_model(self, params, wing_cutoff = 25, wing_wavenumbers = 25, wing_method = 'wing_cutoff'):
         """This is the model used for fitting that includes baseline, resonant absorption, and CIA models.
-
+        这是用于拟合的模型，包括基线、共振吸收和 CIA 模型。
 
         Parameters
         ----------
@@ -1190,8 +1190,8 @@ class Fit_DataSet:
                     compressability_factor = interp_comp_factor([p, T])[0]
                     #print (p, T, compressability_factor)
                 else:
-                    compressability_factor = 1    
-                
+                    compressability_factor = 1
+
                 #Simulate Spectra
                 if self.beta_formalism == True:
                     fit_nu, fit_coef = HTP_wBeta_from_DF_select(linelist_for_sim, wavenumbers, wing_cutoff = wing_cutoff, wing_wavenumbers = wing_wavenumbers, wing_method = wing_method,
