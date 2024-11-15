@@ -17,7 +17,7 @@ wave_range = 1.5 #range outside of experimental x-range to simulate
 IntensityThreshold = 1e-30 #intensities must be above this value to be simulated
 Fit_Intensity = 1e-29 #intensities must be above this value for the line to be fit
 order_baseline_fit = 1
-tau_column = 'aaaa' # Mean tau/us
+tau_column = 'aaaa' # Mean tau/ us
 freq_column = 'Total Frequency /MHz' # Total Frequency /MHz
 pressure_column = 'Cavity Pressure /Torr'
 temperature_column = 'Cavity Temperature Side 2 /C'
@@ -54,14 +54,15 @@ spec_4 = MATS.Spectrum('co2-line4',
                         nominal_temperature = 296, x_shift = 0.00)
 #spec_1.plot_wave_alpha()
 #Read in linelists
-PARAM_LINELIST = linelistdata['CO2_initguess']
+PARAM_LINELIST = linelistdata['CO2_initguess_raw']
 #Add all spectrum to a Dataset object
+#做了格式统一的处理
 SPECTRA = MATS.Dataset([spec_1,spec_2,spec_3,spec_4], 'Line Intensity',PARAM_LINELIST)
 
 #Generate Baseline Parameter list based on number of etalons in spectra definitions and baseline order
 BASE_LINELIST = SPECTRA.generate_baseline_paramlist()
 #1107 以上未发现问题
-FITPARAMS = MATS.Generate_FitParam_File(SPECTRA, PARAM_LINELIST, BASE_LINELIST, lineprofile = 'SDVP', linemixing = False,
+FITPARAMS = MATS.Generate_FitParam_File(SPECTRA, PARAM_LINELIST, BASE_LINELIST, lineprofile = 'HTP', linemixing = False,
                                   fit_intensity = Fit_Intensity, threshold_intensity = IntensityThreshold, sim_window = wave_range,
                                   nu_constrain = True, sw_constrain = True, gamma0_constrain = True, delta0_constrain = True,
                                    aw_constrain = True, as_constrain = True,

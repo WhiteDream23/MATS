@@ -49,6 +49,7 @@ class Dataset:
         self.ILS_function_dict = self.get_ILS_function_dict()
 
     def renumber_spectra(self):
+        #重新编号光谱，使其从开始顺序排列（在类的初始化中调用）。
         """renumbers the spectra to be sequential starting at 1 (called in the initialization of the class).
          """
 
@@ -67,6 +68,7 @@ class Dataset:
         self.baseline_order = max(baseline_order_list)
 
     def correct_component_list(self):
+        #修正，使所有光谱和参数线列表共享相同的分子，若没有该分子，分子分数固定为零（在类的初始化中调用）。
         """Corrects so that all spectra and the parameter line list share the same molecules, but the mole fraction is fixed to zero where molecules are not present (called in the initialization of the class).
         """
 
@@ -87,6 +89,7 @@ class Dataset:
         return dataset_molecule_list
 
     def check_iso_list(self):
+        #检查以确保所有分子都在同位素列表中，并检查以确保所有光谱都使用相同的同位素列表
         ''' Checks to make sure that all molecules are in the isotope_list and also checks to make sure all spectra use the same isotope list
         '''
         # Dictionary of Molecules and Isoptes in linelist:
@@ -164,6 +167,7 @@ class Dataset:
         dataset_broadener_list = list(set(dataset_broadener_list))
         return dataset_broadener_list
     def get_ILS_function_dict(self):
+        #提供数据集中使用的所有 ILS 函数的字典以及分辨率参数的数量
         """Provides a dictionary of all ILS functions used in the dataset and the number of resolution parameters
 
 
@@ -187,6 +191,8 @@ class Dataset:
 
 
     def correct_etalon_list(self):
+        #修正后，所有频谱共享相同数量的等离子，但振幅和周期在适当情况下固定为零（在类的初始化中调用）。
+
         """Corrects so that all spectrum share the same number of etalons, but the amplitude and period are fixed to zero where appropriate(called in the initialization of the class).
         """
 

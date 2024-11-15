@@ -677,6 +677,7 @@ class Fit_DataSet:
         #Lineshape parameters
         linelist_params = []
         for line_param in list(self.lineparam_list):
+            #如果只有一种温度，不包含温度系数‘n_’
             if (self.dataset.get_number_nominal_temperatures()[0]) == 1:
                 if ('_vary' not in line_param) and ('_err' not in line_param) and (line_param != 'molec_id') and (line_param != 'local_iso_id') and (line_param != 'elower') and ('n_' not in line_param):
                     linelist_params.append(line_param)
