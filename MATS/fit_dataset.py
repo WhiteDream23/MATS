@@ -731,7 +731,7 @@ class Fit_DataSet:
             if (sum('eta' in param for param in linelist_params)) >  len(diluent_list):
                 eta_constrain = False
             if (sum('y' in param for param in linelist_params)) >  2*len(diluent_list):
-                eta_constrain = False
+                linemix_constrain = False
 
 
         for spec_line in self.lineparam_list.index.values:
