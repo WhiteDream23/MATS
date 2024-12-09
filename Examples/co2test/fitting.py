@@ -3,7 +3,10 @@ import pandas as pd
 import os, sys
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
-from MATS.linelistdata import linelistdata
+
+from MATS import linelistdata
+
+#from MATS.linelistdata import linelistdata
 parent_dir = os.path.abspath('../../')
 sys.path.append(parent_dir)
 import MATS
@@ -12,6 +15,35 @@ import seaborn as sns
 sns.set_style("whitegrid")
 sns.set_style("ticks")
 sns.set_context("poster")
+
+from PyQt6.QtWidgets import (
+    QApplication, QDialog, QPushButton, QHBoxLayout, QMessageBox
+)
+
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#
+#     window = QDialog()
+#     window.resize(400, 300)
+#
+#
+#     # 弹出窗口
+#     def show_msg():
+#         QMessageBox.information(window, "信息提示", "你点击了我")
+#
+#
+#     hbox = QHBoxLayout()
+#     button = QPushButton("点击我")
+#     button.clicked.connect(show_msg)
+#
+#     hbox.addWidget(button)
+#     window.setLayout(hbox)
+#     # 展示窗口
+#     window.show()
+#
+#     sys.exit(app.exec())
+
+
 #Generic Fit Parameters
 wave_range = 1.5 #range outside of experimental x-range to simulate
 IntensityThreshold = 1e-30 #intensities must be above this value to be simulated
@@ -62,7 +94,7 @@ SPECTRA = MATS.Dataset([spec_1,spec_2,spec_3,spec_4], 'Line Intensity',PARAM_LIN
 #Generate Baseline Parameter list based on number of etalons in spectra definitions and baseline order
 BASE_LINELIST = SPECTRA.generate_baseline_paramlist()
 #1107 以上未发现问题
-FITPARAMS = MATS.Generate_FitParam_File(SPECTRA, PARAM_LINELIST, BASE_LINELIST, lineprofile = 'HTP', linemixing = False,
+FITPARAMS = MATS.Generate_FitParam_File(SPECTRA, PARAM_LINELIST, BASE_LINELIST, lineprofile = 'SDVP', linemixing = False,
                                   fit_intensity = Fit_Intensity, threshold_intensity = IntensityThreshold, sim_window = wave_range,
                                   nu_constrain = True, sw_constrain = True, gamma0_constrain = True, delta0_constrain = True,
                                    aw_constrain = True, as_constrain = True,
@@ -112,3 +144,18 @@ fit_data.residual_analysis(result, indv_resid_plot=True)
 fit_data.update_params(result)
 SPECTRA.generate_summary_file(save_file=True)
 SPECTRA.plot_model_residuals()
+
+
+
+##提供原始数据只是为了提供原始猜测值，那么尝试多次迭代拟合
+# iteration = 0
+# while iteration <= 10:
+#     print ('ITERATION ' + str(iteration))
+#     fit_data = MATS.Fit_DataSet(SPECTRA, 'Baseline_LineList', 'Parameter_LineList', minimum_parameter_fit_intensity = Fit_Intensity)
+#     params = fit_data.generate_params()
+#     result = fit_data.fit_data(params)
+#     fit_data.residual_analysis(result, indv_resid_plot=False)
+#     fit_data.update_params(result)
+#     SPECTRA.generate_summary_file(save_file = True)
+#     SPECTRA.plot_model_residuals()
+#     iteration+=1
