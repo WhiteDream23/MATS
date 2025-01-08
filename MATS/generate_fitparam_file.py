@@ -214,7 +214,6 @@ class Generate_FitParam_File:
             column_list.append('eta_' + diluent)
             column_list.append('y_' + diluent)
             column_list.append('n_y_' + diluent)
-
         param_linelist_df = param_linelist_df[column_list]
         param_linelist_df = param_linelist_df.reset_index(drop = True)
         #Re-defines the Line intensity as sw*sw_scale_factor
@@ -471,7 +470,7 @@ class Generate_FitParam_File:
                     for molecule in vary_n_delta0:
                         for isotope in vary_n_delta0[molecule]:
                             param_linelist_df.loc[(param_linelist_df['nu'] >= dataset_min)&(param_linelist_df['nu'] <= dataset_max)&(param_linelist_df['sw'] > 1) &(param_linelist_df['molec_id'] == molecule) & (param_linelist_df['local_iso_id'] == isotope), 'n_delta0_' +diluent + '_vary'] = (vary_n_delta0[molecule][isotope])
-                #n_Gamma2
+                #n_Gamma2 发现逻辑错误
                 if not (self.lineprofile == 'VP') or  not (self.lineprofile == 'NGP') :
                     if vary_n_gamma2 != {}:
                         for molecule in vary_n_gamma2:

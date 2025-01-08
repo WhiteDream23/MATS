@@ -166,11 +166,12 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
     # Next segment looks at at all possible data and makes an initial guess fill prioritizing HTP over non HTP parameters, but will mix them.
     # It will also calculate aw based on theory and set values where there is an air value, but no self value equal to the air value.  COmment line printed at end will detail these
     #  Will also use GP values if available (and NGP from HTP are not) will make a note in comment if this happens
+    #说明了要使用哪些参数
     avail_species = []
     linelist_select = linelist[
         ['trans_id', 'molec_id', 'local_iso_id', 'nu', 'sw', 'a', 'elower', 'gp', 'gpp', 'elower',
          'global_upper_quanta', 'global_lower_quanta', 'local_upper_quanta', 'local_lower_quanta']].copy()
-    for param in list(linelist): # 1105 air\self
+    for param in list(linelist): # 1105 air\self\co2\he\h2\h2o
         if ('gamma_' in param) and ('HT' not in param):
             avail_species.append(param[6:])
 
@@ -190,7 +191,7 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
             for species in avail_species:
                 comment = ''
                 # Gamma0
-                #使用HITRANOnline中的gamma_air和gamma_self
+                #使用HITRANOnline中的gamma_air和gamma_self\gamma_H2\gamma_CO2\gamma_He\gamma_H2O
                 try:
                     linelist_select.loc[(linelist_select['molec_id'] == molecule) & (
                                 linelist_select['local_iso_id'] == isotope), 'gamma0_%s' % (species)] = \
@@ -202,7 +203,7 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
                     linelist[(linelist['molec_id'] == molecule) & (linelist['local_iso_id'] == isotope)][
                         'gamma_%s' % species].values
                 # Temperature Dependence Gamma0
-                #使用HITRANOnline中的n_air和n_self
+                #使用HITRANOnline中的n_air和n_self\n_gamma0_H2\n_gamma0_CO2\n_gamma0_He\n_gamma0_H2O
                 try:
                     linelist_select.loc[(linelist_select['molec_id'] == molecule) & (
                                 linelist_select['local_iso_id'] == isotope), 'n_gamma0_%s' % (species)] = \
@@ -287,7 +288,6 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
                             linelist[(linelist['molec_id'] == molecule) & (linelist['local_iso_id'] == isotope)][
                                 'SD_air'].values
                         except:
-
                             if calculate_aw:
                                 for i in linelist_select[(linelist_select['molec_id'] == molecule) & (
                                         linelist_select['local_iso_id'] == isotope)].index:
@@ -370,7 +370,7 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
                     linelist_select.loc[(linelist_select['molec_id'] == molecule) & (
                                 linelist_select['local_iso_id'] == isotope), 'eta_%s' % (species)] = 0
 
-                    # Linemixing
+                # Linemixing
                 try:
                     linelist_select.loc[(linelist_select['molec_id'] == molecule) & (
                                 linelist_select['local_iso_id'] == isotope), 'y_%s' % (species) + '_' + str(
@@ -384,7 +384,8 @@ def HITRANlinelist_to_csv(isotopes, minimum_wavenumber, maximum_wavenumber, tabl
 
                 print(molecule, isotope, species, comment)
     linelist_select.to_csv(tablename + '_initguess.csv', index=False)
-
+    #最后，我们获得了一个linelist_select的数据框，其中包含了HITRAN信息和理论值/假设补充的信息。
+    #具体为基础参数加上针对每一种species的相关参数
     return linelist_select
 
 tablename = 'CO2'

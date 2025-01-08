@@ -1,0 +1,5 @@
+Spectrum Number,Segment Number,Pressure,Pressure_err,Pressure_vary,Temperature,Temperature_err,Temperature_vary,x_shift,x_shift_err,x_shift_vary,molefraction_H2O,molefraction_H2O_err,molefraction_H2O_vary,baseline_a,baseline_a_err,baseline_a_vary,baseline_b,baseline_b_err,baseline_b_vary
+1,1,0.007323249999999999,0.0,False,307.15,0.0,False,0.0,0.0,False,1,0.0,False,0.0,0.0,True,0.0,0.0,True
+2,1,0.010316473684210525,0.0,False,307.15,0.0,False,0.0,0.0,False,1,0.0,False,0.0,0.0,True,0.0,0.0,True
+3,1,0.014516578947368422,0.0,False,307.15,0.0,False,0.0,0.0,False,1,0.0,False,0.0,0.0,True,0.0,0.0,True
+4,1,0.01887644736842106,0.0,False,307.15,0.0,False,0.0,0.0,False,1,0.0,False,0.0,0.0,True,0.0,0.0,True

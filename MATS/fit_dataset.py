@@ -1067,11 +1067,13 @@ class Fit_DataSet:
             the params object is a dictionary comprised of all parameters translated from dataframes into a dictionary format compatible with lmfit.
         wing_cutoff : float, optional
             number of voigt half-widths to simulate on either side of each line. The default is 25.
+            模拟每条线两侧的 Voigt 半宽度的数量。默认值为 25。
         wing_wavenumbers : float, optional
             number of wavenumbers to simulate on either side of each line. The default is 25
+            模拟每条线两侧的波数的数量。默认值为 25。
         wing_method : TYPE, optional
             Provides choice between the wing_cutoff and wing_wavenumbers line cut-off options. The default is 'wing_cutoff'.
-
+            提供了在 wing_cutoff 和 wing_wavenumbers 线截止选项之间进行选择。默认为 'wing_cutoff'。
         Returns
         -------
         total_residuals : array
@@ -1313,10 +1315,6 @@ class Fit_DataSet:
         else: 
             minner = Minimizer(self.simulation_model, params, max_nfev =  maxfev, fcn_args=(wing_cutoff, wing_wavenumbers, wing_method))
             #could add Ns = 20, and keep = 50
-        
-
-            
-            
         result = minner.minimize(method = method)#'
         return result
 
